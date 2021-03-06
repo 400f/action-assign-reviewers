@@ -50,20 +50,23 @@ function run() {
             const reviewers = core.getInput('REVIEWERS').split(',');
             const teamReviewers = core.getInput('TEAM_REVIEWERS').split(',');
             const octokit = github_1.default.getOctokit(token, {});
-            if (!((_a = ctx.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number))
+            const owner = ctx.repo.owner;
+            const repo = ctx.repo.repo;
+            const pull_number = (_a = ctx.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
+            if (!pull_number)
                 return;
             const { data: pullRequest } = yield octokit.pulls.get({
-                owner: ctx.repo.owner,
-                repo: ctx.repo.repo,
-                pull_number: ctx.payload.pull_request.number
+                owner,
+                repo,
+                pull_number
             });
             const requestedReviewersNum = (_c = (_b = pullRequest.requested_reviewers) === null || _b === void 0 ? void 0 : _b.length) !== null && _c !== void 0 ? _c : 0;
             if (requestedReviewersNum > 0)
                 return;
             yield octokit.pulls.requestReviewers({
-                owner: ctx.repo.owner,
-                repo: ctx.repo.repo,
-                pull_number: ctx.payload.pull_request.number,
+                owner,
+                repo,
+                pull_number,
                 reviewers,
                 team_reviewers: teamReviewers
             });
