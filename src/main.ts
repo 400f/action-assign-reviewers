@@ -9,7 +9,7 @@ async function run(): Promise<void> {
     const reviewers = core.getInput('REVIEWERS').split(',')
     const teamReviewers = core.getInput('TEAM_REVIEWERS').split(',')
 
-    const octokit = github.getOctokit(token, {})
+    const octokit = github.getOctokit(token)
 
     const owner = ctx.repo.owner
     const repo = ctx.repo.repo
