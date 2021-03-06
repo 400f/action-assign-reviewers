@@ -22,3 +22,11 @@ jobs:
           REVIEWERS: 'RyoNkmr,YosukeCSato'
           TEAM_REVIEWERS: 'employee-eng,scrum-dev'
 ```
+
+## Development
+
+```sh
+$ yarn build && yarn package
+```
+
+Push and run and push and run!

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "description": "A Github action workflow that assign reviewers and team reviewers.",
-  "main": "src/main.ts",
+  "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write **/*.ts",
