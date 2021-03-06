@@ -1,10 +1,6 @@
-name: 'build-test'
+name: test run
 on: # rebuild any PRs and main branch changes
   pull_request:
-  push:
-    branches:
-      - main
-      - 'releases/*'
 
 jobs:
   test: # make sure the action works on a clean machine without building
@@ -13,6 +9,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_REPO }}
           REVIEWERS: 'hard-boiled'
           TEAM_REVIEWERS: 'for-test-action'
