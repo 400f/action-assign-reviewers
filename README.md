@@ -29,4 +29,4 @@ jobs:
 $ yarn build && yarn package
 ```
 
-Push and run and push and run!
+このリポジトリでプルリク作ったらワークフロー走るからそこでテストする。

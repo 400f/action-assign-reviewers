@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import github from '@actions/github'
+import * as github from '@actions/github'
 
 const ctx = github.context
 
@@ -9,22 +9,26 @@ async function run(): Promise<void> {
     const reviewers = core.getInput('REVIEWERS').split(',')
     const teamReviewers = core.getInput('TEAM_REVIEWERS').split(',')
 
-    const octokit = github.getOctokit(token, {})
+    const octokit = github.getOctokit(token)
 
-    if (!ctx.payload.pull_request?.number) return
+    const owner = ctx.repo.owner
+    const repo = ctx.repo.repo
+    const pull_number = ctx.payload.pull_request?.number
+
+    if (!pull_number) return
     const {data: pullRequest} = await octokit.pulls.get({
-      owner: ctx.repo.owner,
-      repo: ctx.repo.repo,
-      pull_number: ctx.payload.pull_request.number
+      owner,
+      repo,
+      pull_number
     })
 
     const requestedReviewersNum = pullRequest.requested_reviewers?.length ?? 0
     if (requestedReviewersNum > 0) return
 
     await octokit.pulls.requestReviewers({
-      owner: ctx.repo.owner,
-      repo: ctx.repo.repo,
-      pull_number: ctx.payload.pull_request.number,
+      owner,
+      repo,
+      pull_number,
       reviewers,
       team_reviewers: teamReviewers
     })
