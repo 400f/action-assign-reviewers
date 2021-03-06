@@ -35,13 +35,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__webpack_require__(186));
-const github_1 = __importDefault(__webpack_require__(438));
-const ctx = github_1.default.context;
+const github = __importStar(__webpack_require__(438));
+const ctx = github.context;
 function run() {
     var _a, _b, _c;
     return __awaiter(this, void 0, void 0, function* () {
@@ -49,7 +46,7 @@ function run() {
             const token = core.getInput('GITHUB_TOKEN', { required: true });
             const reviewers = core.getInput('REVIEWERS').split(',');
             const teamReviewers = core.getInput('TEAM_REVIEWERS').split(',');
-            const octokit = github_1.default.getOctokit(token, {});
+            const octokit = github.getOctokit(token, {});
             const owner = ctx.repo.owner;
             const repo = ctx.repo.repo;
             const pull_number = (_a = ctx.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
