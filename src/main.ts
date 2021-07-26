@@ -22,6 +22,10 @@ async function run(): Promise<void> {
       pull_number
     })
 
+    // PRがドラフトだったらなにもしない
+    if (pullRequest.draft) return
+
+    // PRにレビュワーがアサインされてたら追加アサインしない
     const requestedReviewersNum = pullRequest.requested_reviewers?.length ?? 0
     if (requestedReviewersNum > 0) return
 

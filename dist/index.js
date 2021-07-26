@@ -46,7 +46,7 @@ function run() {
             const token = core.getInput('GITHUB_TOKEN', { required: true });
             const reviewers = core.getInput('REVIEWERS').split(',');
             const teamReviewers = core.getInput('TEAM_REVIEWERS').split(',');
-            const octokit = github.getOctokit(token, {});
+            const octokit = github.getOctokit(token);
             const owner = ctx.repo.owner;
             const repo = ctx.repo.repo;
             const pull_number = (_a = ctx.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
@@ -57,6 +57,10 @@ function run() {
                 repo,
                 pull_number
             });
+            // PRがドラフトだったらなにもしない
+            if (pullRequest.draft)
+                return;
+            // PRにレビュワーがアサインされてたら追加アサインしない
             const requestedReviewersNum = (_c = (_b = pullRequest.requested_reviewers) === null || _b === void 0 ? void 0 : _b.length) !== null && _c !== void 0 ? _c : 0;
             if (requestedReviewersNum > 0)
                 return;
