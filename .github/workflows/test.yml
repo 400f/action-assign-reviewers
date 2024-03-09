@@ -12,3 +12,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT_REPO }}
           REVIEWERS: 'hard-boiled'
           TEAM_REVIEWERS: 'for-test-action'
+          MUST_TEAM_REVIEWERS: 'employee-eng'
