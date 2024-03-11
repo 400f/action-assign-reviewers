@@ -8,6 +8,8 @@ async function run(): Promise<void> {
     const token = core.getInput('GITHUB_TOKEN', { required: true })
     const reviewers = core.getInput('REVIEWERS').split(',')
     const teamReviewers = core.getInput('TEAM_REVIEWERS').split(',')
+    const mustReviewers = core.getInput('MUST_REVIEWERS').split(',')
+    const mustTeamReviewers = core.getInput('MUST_TEAM_REVIEWERS').split(',')
 
     const octokit = github.getOctokit(token)
 
@@ -25,16 +27,27 @@ async function run(): Promise<void> {
     // PRがドラフトだったらなにもしない
     if (pullRequest.draft) return
 
-    // PRにレビュワーがアサインされてたら追加アサインしない
     const requestedReviewersNum = pullRequest.requested_reviewers?.length ?? 0
-    if (requestedReviewersNum > 0) return
+
+    const additionalReviewers =
+      requestedReviewersNum > 0
+        ? mustReviewers
+        : [...reviewers, ...mustReviewers]
+
+    const additionalTeamReviewers =
+      requestedReviewersNum > 0
+        ? mustTeamReviewers
+        : [...teamReviewers, ...mustTeamReviewers]
+
+    // 追加するべきレビュアーがいない場合はなにもしない
+    if (additionalReviewers.length + additionalTeamReviewers.length) return
 
     await octokit.pulls.requestReviewers({
       owner,
       repo,
       pull_number,
-      reviewers,
-      team_reviewers: teamReviewers,
+      reviewers: additionalReviewers,
+      team_reviewers: additionalTeamReviewers,
     })
   } catch (error) {
     core.setFailed(error.message)
