@@ -28,13 +28,16 @@ async function run(): Promise<void> {
     if (pullRequest.draft) return
 
     const requestedReviewersNum = pullRequest.requested_reviewers?.length ?? 0
-    const [additionalReviewers, additionalTeamReviewers] =
+
+    const additionalReviewers =
       requestedReviewersNum > 0
-        ? [mustReviewers, mustTeamReviewers]
-        : [
-            [...reviewers, ...mustReviewers],
-            [...teamReviewers, ...mustTeamReviewers],
-          ]
+        ? mustReviewers
+        : [...reviewers, ...mustReviewers]
+
+    const additionalTeamReviewers =
+      requestedReviewersNum > 0
+        ? mustTeamReviewers
+        : [...teamReviewers, ...mustTeamReviewers]
 
     // 追加するべきレビュアーがいない場合はなにもしない
     if (additionalReviewers.length + additionalTeamReviewers.length) return
