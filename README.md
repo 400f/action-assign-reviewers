@@ -21,6 +21,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REVIEWERS: 'RyoNkmr,YosukeCSato'
           TEAM_REVIEWERS: 'employee-eng,scrum-dev'
+          # PR作成時にReviewersを設定していても、MUST_REVIEWERS, MUST_TEAM_REVIEWERSは必ず追加される
+          MUST_REVIEWERS: 'hoge,fuga'
+          MUST_TEAM_REVIEWERS: 'team-a,team-b'
 ```
 
 ## Development
