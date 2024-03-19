@@ -8,9 +8,15 @@ inputs:
   TEAM_REVIEWERS:
     description: 'team reviewers'
     default: ''
+  MUST_REVIEWERS:
+    description: 'must reviewers (always added)'
+    default: ''
+  MUST_TEAM_REVIEWERS:
+    description: 'must team reviewers (always added)'
+    default: ''
   GITHUB_TOKEN:
     description: 'A github token'
     required: true
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
