@@ -73,7 +73,7 @@ function run() {
                 ? mustTeamReviewers
                 : [...teamReviewers, ...mustTeamReviewers];
             // 追加するべきレビュアーがいない場合はなにもしない
-            if (additionalReviewers.length + additionalTeamReviewers.length)
+            if (additionalReviewers.length + additionalTeamReviewers.length === 0)
                 return;
             yield octokit.rest.pulls.requestReviewers({
                 owner,

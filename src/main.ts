@@ -40,7 +40,8 @@ async function run(): Promise<void> {
         : [...teamReviewers, ...mustTeamReviewers]
 
     // 追加するべきレビュアーがいない場合はなにもしない
-    if (additionalReviewers.length + additionalTeamReviewers.length) return
+    if (additionalReviewers.length + additionalTeamReviewers.length === 0)
+      return
 
     await octokit.rest.pulls.requestReviewers({
       owner,
