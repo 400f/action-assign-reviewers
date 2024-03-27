@@ -3,13 +3,16 @@ import * as github from '@actions/github'
 
 const ctx = github.context
 
+const getInputAsArray = (name: string): string[] =>
+  core.getInput(name) === '' ? [] : core.getInput(name).split(',')
+
 async function run(): Promise<void> {
   try {
     const token = core.getInput('GITHUB_TOKEN', { required: true })
-    const reviewers = core.getInput('REVIEWERS').split(',')
-    const teamReviewers = core.getInput('TEAM_REVIEWERS').split(',')
-    const mustReviewers = core.getInput('MUST_REVIEWERS').split(',')
-    const mustTeamReviewers = core.getInput('MUST_TEAM_REVIEWERS').split(',')
+    const reviewers = getInputAsArray('REVIEWERS')
+    const teamReviewers = getInputAsArray('TEAM_REVIEWERS')
+    const mustReviewers = getInputAsArray('MUST_REVIEWERS')
+    const mustTeamReviewers = getInputAsArray('MUST_TEAM_REVIEWERS')
 
     const octokit = github.getOctokit(token)
 

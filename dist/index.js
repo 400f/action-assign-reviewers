@@ -42,15 +42,16 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const ctx = github.context;
+const getInputAsArray = (name) => core.getInput(name) === '' ? [] : core.getInput(name).split(',');
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b, _c;
         try {
             const token = core.getInput('GITHUB_TOKEN', { required: true });
-            const reviewers = core.getInput('REVIEWERS').split(',');
-            const teamReviewers = core.getInput('TEAM_REVIEWERS').split(',');
-            const mustReviewers = core.getInput('MUST_REVIEWERS').split(',');
-            const mustTeamReviewers = core.getInput('MUST_TEAM_REVIEWERS').split(',');
+            const reviewers = getInputAsArray('REVIEWERS');
+            const teamReviewers = getInputAsArray('TEAM_REVIEWERS');
+            const mustReviewers = getInputAsArray('MUST_REVIEWERS');
+            const mustTeamReviewers = getInputAsArray('MUST_TEAM_REVIEWERS');
             const octokit = github.getOctokit(token);
             const owner = ctx.repo.owner;
             const repo = ctx.repo.repo;

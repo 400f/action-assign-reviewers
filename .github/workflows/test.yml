@@ -11,6 +11,7 @@ jobs:
       - uses: ./
         with:
           GITHUB_TOKEN: ${{ secrets.PAT_REPO }}
-          REVIEWERS: "hard-boiled"
+          REVIEWERS: ""
           TEAM_REVIEWERS: "for-test-action"
-          MUST_TEAM_REVIEWERS: "employee-eng"
+          MUST_REVIEWERS: ""
+          MUST_TEAM_REVIEWERS: ""
