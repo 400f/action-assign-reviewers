@@ -18,7 +18,7 @@ async function run(): Promise<void> {
     const pull_number = ctx.payload.pull_request?.number
 
     if (!pull_number) return
-    const { data: pullRequest } = await octokit.pulls.get({
+    const { data: pullRequest } = await octokit.rest.pulls.get({
       owner,
       repo,
       pull_number,
@@ -40,16 +40,18 @@ async function run(): Promise<void> {
         : [...teamReviewers, ...mustTeamReviewers]
 
     // 追加するべきレビュアーがいない場合はなにもしない
-    if (additionalReviewers.length + additionalTeamReviewers.length) return
+    if (additionalReviewers.length + additionalTeamReviewers.length === 0)
+      return
 
-    await octokit.pulls.requestReviewers({
+    await octokit.rest.pulls.requestReviewers({
       owner,
       repo,
       pull_number,
       reviewers: additionalReviewers,
       team_reviewers: additionalTeamReviewers,
     })
-  } catch (error) {
+    /* eslint @typescript-eslint/no-explicit-any: 0 */
+  } catch (error: any) {
     core.setFailed(error.message)
   }
 }
