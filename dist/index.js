@@ -45,7 +45,7 @@ const ctx = github.context;
 const getInputAsArray = (name) => core.getInput(name) === '' ? [] : core.getInput(name).split(',');
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a, _b, _c;
+        var _a, _b, _c, _d, _e;
         try {
             const token = core.getInput('GITHUB_TOKEN', { required: true });
             const reviewers = getInputAsArray('REVIEWERS');
@@ -56,7 +56,8 @@ function run() {
             const owner = ctx.repo.owner;
             const repo = ctx.repo.repo;
             const pull_number = (_a = ctx.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
-            if (!pull_number)
+            const author = (_c = (_b = ctx.payload.pull_request) === null || _b === void 0 ? void 0 : _b.user) === null || _c === void 0 ? void 0 : _c.login;
+            if (!pull_number || !author)
                 return;
             const { data: pullRequest } = yield octokit.rest.pulls.get({
                 owner,
@@ -66,10 +67,13 @@ function run() {
             // PRがドラフトだったらなにもしない
             if (pullRequest.draft)
                 return;
-            const requestedReviewersNum = (_c = (_b = pullRequest.requested_reviewers) === null || _b === void 0 ? void 0 : _b.length) !== null && _c !== void 0 ? _c : 0;
+            const requestedReviewersNum = (_e = (_d = pullRequest.requested_reviewers) === null || _d === void 0 ? void 0 : _d.length) !== null && _e !== void 0 ? _e : 0;
+            // PR作成者を除外する
+            const filteredMustReviewers = mustReviewers.filter(reviewer => reviewer !== author);
+            const filteredReviewers = reviewers.filter(reviewer => reviewer !== author);
             const additionalReviewers = requestedReviewersNum > 0
-                ? mustReviewers
-                : [...reviewers, ...mustReviewers];
+                ? filteredMustReviewers
+                : [...filteredReviewers, ...filteredMustReviewers];
             const additionalTeamReviewers = requestedReviewersNum > 0
                 ? mustTeamReviewers
                 : [...teamReviewers, ...mustTeamReviewers];
