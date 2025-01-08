@@ -19,8 +19,10 @@ async function run(): Promise<void> {
     const owner = ctx.repo.owner
     const repo = ctx.repo.repo
     const pull_number = ctx.payload.pull_request?.number
+    const author = ctx.payload.pull_request?.user?.login
 
-    if (!pull_number) return
+    if (!pull_number || !author) return
+
     const { data: pullRequest } = await octokit.rest.pulls.get({
       owner,
       repo,
@@ -32,10 +34,16 @@ async function run(): Promise<void> {
 
     const requestedReviewersNum = pullRequest.requested_reviewers?.length ?? 0
 
+    // PR作成者を除外する
+    const filteredMustReviewers = mustReviewers.filter(
+      reviewer => reviewer !== author
+    )
+    const filteredReviewers = reviewers.filter(reviewer => reviewer !== author)
+
     const additionalReviewers =
       requestedReviewersNum > 0
-        ? mustReviewers
-        : [...reviewers, ...mustReviewers]
+        ? filteredMustReviewers
+        : [...filteredReviewers, ...filteredMustReviewers]
 
     const additionalTeamReviewers =
       requestedReviewersNum > 0
