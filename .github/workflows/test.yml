@@ -18,5 +18,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT_REPO }}
           REVIEWERS: "Cassin01"
           TEAM_REVIEWERS: ""
-          MUST_REVIEWERS: ""
+          MUST_REVIEWERS: "glasun"
           MUST_TEAM_REVIEWERS: ""
