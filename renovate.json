@@ -1,6 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  "extends": ["local>400f/renovate-config"],
+  "packageRules": [
+    {
+      "description": "action.yml runs on node24; keep the local toolchain and types on the same major",
+      "matchDepNames": ["node", "@types/node"],
+      "allowedVersions": "<25"
+    }
   ]
 }
