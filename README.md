@@ -79,3 +79,13 @@ Expected output: `::error::Bad credentials` (indicates the action reached the Gi
 ### Integration Test
 
 Create a pull request in this repository to trigger the test workflow (`.github/workflows/test.yml`).
+
+### Dependency Updates
+
+The action runs the committed `dist/`, and `.github/workflows/check.yml` fails when `dist/` does not match a fresh build.
+Renovate only updates `package.json` and `yarn.lock`, so its pull requests that change the bundle fail this check and are not automerged.
+Rebuild on the Renovate branch and push, then merge manually:
+
+```sh
+yarn install && yarn build && yarn package
+```
