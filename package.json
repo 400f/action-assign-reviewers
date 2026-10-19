@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "description": "A Github action workflow that assign reviewers and team reviewers.",
+  "type": "module",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -24,9 +25,8 @@
   "license": "MIT",
   "packageManager": "yarn@4.12.0",
   "dependencies": {
-    "@actions/core": "^1.10.1",
-    "@actions/github": "^6.0.0",
-    "undici": "^6.0.0"
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1"
   },
   "devDependencies": {
     "@types/node": "^24.10.9",
