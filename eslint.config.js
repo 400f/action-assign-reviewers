@@ -4,7 +4,7 @@ import tseslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 
 export default [
-  { ignores: ['dist/', 'lib/', 'node_modules/', 'jest.config.js'] },
+  { ignores: ['dist/', 'lib/', 'node_modules/'] },
   github.getFlatConfigs().recommended,
   // github's recommended config already registers the prettier plugin
   { rules: prettierRecommended.rules },
