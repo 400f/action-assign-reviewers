@@ -36,7 +36,6 @@
     "eslint": "^10.14.0",
     "eslint-plugin-github": "^6.1.2",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-jest": "^29.17.0",
     "eslint-plugin-prettier": "^5.5.7",
     "js-yaml": "^4.3.2",
     "prettier": "3.9.10",
